@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Test selecteur</title>
+        <script type='module' src='html-picker.js'></script>
+        <script type='module'>
+            import {enableSelection, disableSelection} from './html-picker.js';
+
+            let container = document.querySelector("#frame");
+            let enabled = false;
+            let report = document.querySelector("#report");
+            let onHover = () => {};
+            let onSelect = (elem, selector) => {
+                let elems = document.querySelectorAll(selector);
+                if (elems.length != 1 || elems[0] !== elem) {
+                    alert("MISMATCH");
+                }
+                report.value = selector;
+           };
+
+            document.querySelector("#toggle").addEventListener('click', () => {
+                if (enabled)
+                    disableSelection(container);
+                else
+                    enableSelection(container, onHover, onSelect);
+                enabled = ! enabled;
+            });
+        </script>
+    </head>
+    <body>
+        <button id='toggle' style='display:inline'>Activer/Désactiver la sélection</button>
+        <input id='report' style='width:50%'>
+        <div id='frame'>
+            <h1>Titre</h1>
+            <div class='container row'>
+                <div class='col-12'>
+                    <h2>Article</h2>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class='col-12'>
+                    <h2>Article 2</h2>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <div class='col-12'>
+                    <h2>Article 3</h2>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+            <div>
+                <div class='button'>
+                    <button id="testButton">Appuyer !</button>
+                </div>
+                <div>
+                    <a href='#'>Lien 1</a>
+                    <a href='#'>Lien 2</a>
+                    <a href='#' title='Lien 3'>Lien 3</a>
+                </div>
+                <ul class='liste'>
+                    Liste
+                    <li>Elem 1</li>
+                    <li>Elem 2</li>
+                    <li id='spe'>Elem 3</li>
+                    <li class='liste-elem'>Elem 4</li>
+                    <li class='liste-elem'>Elem 5</li>
+                </ul>
+                <ul>
+                    <li>Elem 2.1</li>
+                </ul>
+            </div>
+        </div>
+    </body>
+<html>
