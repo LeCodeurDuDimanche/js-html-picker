@@ -1,11 +1,32 @@
 let container;
 //TODO: faire une classe
+//TODO: refactor hover/select functions
 let hovered = {element: null, selector: null, prevStyle: null};
 let selected = {element: null, selector: null, prevStyle: null};
+let hoverStyle = null;
+let selectStyle = null;
+let defaultOptions = {
+    hoverStyle : {background: '#ffeeaa'},
+    selectStyle : {background: '#ffaaaa'}
+};
 
 let selectionActionCallback, hoverActionCallback, detectClickOutsideContainerActionCallback;
 
-function setStyle(element, state, defineStyle)
+function copyPartialStyle(element, style)
+{
+    let copy = {};
+    for (let prop in style)
+        copy[prop] = element.style[prop];
+    return copy;
+}
+
+function setElementStyle(element, style)
+{
+    for (let prop in style)
+        element.style.setProperty(prop, style[prop]);
+}
+
+function setStyle(element, state, style)
 {
     if (element.element === null)
     {
@@ -14,11 +35,11 @@ function setStyle(element, state, defineStyle)
     }
 
     if (state) {
-        element.prevStyle = element.element.style.background;
-        defineStyle(element.element);
+        element.prevStyle = copyPartialStyle(element.element, style);
+        setElementStyle(element.element, style);
     }
-    else {
-        element.element.style.background = element.prevStyle;
+    else if (element.prevStyle !== null) {
+        setElementStyle(element.element, element.prevStyle);
         element.prevStyle = null;
     }
 }
@@ -26,12 +47,12 @@ function setStyle(element, state, defineStyle)
 //TODO: improve style and colors
 function setHoverStyle(element, state)
 {
-    setStyle(element, state, (e) => e.style.background = '#ffeeaa');
+    setStyle(element, state, hoverStyle);
 }
 
 function setSelectedStyle(element, state)
 {
-    setStyle(element, state, (e) => e.style.background = '#ffaaaa');
+    setStyle(element, state, selectStyle);
 }
 
 function selectorIsUnique(container, selector)
@@ -88,8 +109,6 @@ function hoverAction(container, callback)
     	hovered.element = e.target;
         hovered.selector = getUniqueCssSelector(container, hovered.element);
 
-        if (hovered.element === selected.element)
-            setSelectedStyle(selected, false);
         setHoverStyle(hovered, true);
 
         callback(hovered.element, hovered.selector);
@@ -131,8 +150,11 @@ function onMouseLeave()
 }
 
 //TODO: gerer les appels concurrents
-function enableSelection(container, onHover, onSelect)
+function enableSelection(container, onHover, onSelect, options = {})
 {
+    hoverStyle = options.hoverStyle ?? defaultOptions.hoverStyle;
+    selectStyle = options.selectStyle ?? defaultOptions.selectStyle;
+
     //TODO: check capture
     hoverActionCallback = hoverAction(container, onHover);
     container.addEventListener("mouseover", hoverActionCallback);

@@ -18,19 +18,31 @@
                 }
                 report.value = selector;
            };
+           let options = {
+               hoverStyle : {
+                   'background-color' : 'aliceblue',
+                   border : '1px solid purple'
+               },
+               selectStyle : {
+                   'background-color': 'red',
+                   border: '2px dashed yellow'
+               }
+           };
 
             document.querySelector("#toggle").addEventListener('click', () => {
-                if (enabled)
+                if (enabled) {
                     disableSelection(container);
+                    report.value = '';
+                }
                 else
-                    enableSelection(container, onHover, onSelect);
+                    enableSelection(container, onHover, onSelect, options);
                 enabled = ! enabled;
             });
         </script>
     </head>
     <body>
         <button id='toggle' style='display:inline'>Activer/Désactiver la sélection</button>
-        <input id='report' style='width:50%'>
+        <input id='report' style='width:50%; color:black' disabled>
         <div id='frame'>
             <h1>Titre</h1>
             <div class='container row'>
